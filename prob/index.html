@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks with Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        nav a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #388e3c;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            margin: 5px;
+            width: calc(100% - 22px);
+            box-sizing: border-box;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        ul li button {
+            background-color: #f44336;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        ul li button:hover {
+            background-color: #c62828;
+        }
+
+        #dropZone {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed lightblue;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #draggableItem {
+            width: 100px;
+            height: 100px;
+            background-color: lightcoral;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" onclick="showSection('easy')">Easy Tasks</a>
+        <a href="#" onclick="showSection('intermediate')">Intermediate Tasks</a>
+        <a href="#" onclick="showSection('dragDrop')">Drag and Drop</a>
+        <a href="#" onclick="showSection('expenseTracker')">Expense Tracker</a>
+        <a href="#" onclick="showSection('quizApp')">Quiz App</a>
+    </nav>
+
+    <div class="content">
+        <!-- Easy Tasks Section -->
+        <div id="easy" class="section">
+            <h1>Easy Tasks</h1>
+            <button id="colorButton">Change Background Color</button>
+            <br><br>
+            <button id="counterButton">Increase Counter</button> <span id="counterDisplay">0</span>
+            <br><br>
+            <button id="toggleButton">Toggle Paragraph</button>
+            <p id="toggleParagraph">This paragraph can be toggled.</p>
+            <br><br>
+            <button id="textButton">Change Text</button>
+            <p id="textParagraph">This is the original text.</p>
+            <br><br>
+            <button id="alertButton">Show Alert</button>
+        </div>
+
+        <!-- Intermediate Tasks Section -->
+        <div id="intermediate" class="section">
+            <h1>Intermediate Tasks</h1>
+            <h2>To-Do List</h2>
+            <input id="todoInput" type="text" placeholder="Add new task">
+            <button id="addButton">Add Task</button>
+            <ul id="todoList"></ul>
+
+            <h2>Image Slider</h2>
+            <img id="sliderImage" src="image1.jpg" alt="Image Slider" width="300">
+            <br>
+            <button id="nextButton">Next Image</button>
+        </div>
+
+        <!-- Drag and Drop Section -->
+        <div id="dragDrop" class="section">
+            <h1>Drag and Drop</h1>
+            <div id="draggableItem" draggable="true">Drag me</div>
+            <div id="dropZone"></div>
+        </div>
+
+        <!-- Expense Tracker Section -->
+        <div id="expenseTracker" class="section">
+            <h1>Expense Tracker</h1>
+            <input id="expenseName" type="text" placeholder="Expense Name">
+            <input id="expenseAmount" type="number" placeholder="Amount">
+            <button id="addExpenseButton">Add Expense</button>
+            <ul id="expenseList"></ul>
+        </div>
+
+        <!-- Quiz App Section -->
+        <div id="quizApp" class="section">
+            <h1>Quiz App</h1>
+            <div id="question"></div>
+            <div id="options"></div>
+            <div id="score"></div>
+        </div>
+    </div>
+
+    <script>
+        // Show section and hide others
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        }
+
+        // Easy Tasks
+        let count = 0;
+        document.getElementById('colorButton').addEventListener('click', function() {
+            document.body.style.backgroundColor = 'lightblue';
+        });
+        document.getElementById('counterButton').addEventListener('click', function() {
+            count++;
+            document.getElementById('counterDisplay').innerText = count;
+        });
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            const paragraph = document.getElementById('toggleParagraph');
+            paragraph.style.display = paragraph.style.display === 'none' ? 'block' : 'none';
+        });
+        document.getElementById('textButton').addEventListener('click', function() {
+            document.getElementById('textParagraph').innerText = 'Text has been changed!';
+        });
+        document.getElementById('alertButton').addEventListener('click', function() {
+            alert('Button clicked!');
+        });
+
+        // To-Do List
+        document.getElementById('addButton').addEventListener('click', function() {
+            const item = document.getElementById('todoInput').value;
+            const listItem = document.createElement('li');
+            listItem.innerText = item;
+            document.getElementById('todoList').appendChild(listItem);
+        });
+
+        // Image Slider
+        let currentIndex = 0;
+        const images = ['image1.jpg', 'image2.jpg', 'image3.jpg'];
+        document.getElementById('nextButton').addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('sliderImage').src = images[currentIndex];
+        });
+
+        // Drag and Drop
+        const item = document.getElementById('draggableItem');
+        item.addEventListener('dragstart', function(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        });
+
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            const id = event.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(id);
+            dropZone.appendChild(draggableElement);
+        });
+
+        // Expense Tracker
+        let expenses = [];
+        document.getElementById('addExpenseButton').addEventListener('click', function() {
+            const name = document.getElementById('expenseName').value;
+            const amount = document.getElementById('expenseAmount').value;
+            expenses.push({ name, amount });
+            displayExpenses();
+        });
+
+        function displayExpenses() {
+            const expenseList = document.getElementById('expenseList');
+            expenseList.innerHTML = '';
+            expenses.forEach(function(expense, index) {
+                const listItem = document.createElement('li');
+                listItem.innerText = `${expense.name}: $${expense.amount}`;
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.addEventListener('click', function() {
+                    expenses.splice(index, 1);
+                    displayExpenses();
+                });
+                listItem.appendChild(deleteButton);
+                expenseList.appendChild(listItem);
+            });
+        }
+
+        // Quiz App
+        const questions = [
+            { question: 'What is 2 + 2?', options: ['3', '4', '5'], answer: '4' },
+            { question: 'What is the capital of France?', options: ['Berlin', 'Madrid', 'Paris'], answer: 'Paris' }
+        ];
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').innerText = question.question;
+            const options = document.getElementById('options');
+            options.innerHTML = '';
+            question.options.forEach(function(option) {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.addEventListener('click', function() {
+                    if (option === question.answer) {
+                        score++;
+                    }
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                    } else {
+                        document.getElementById('score').innerText = `Your score: ${score}`;
+                    }
+                });
+                options.appendChild(button);
+            });
+        }
+        displayQuestion();
+    </script>
+</body>
+</html>
